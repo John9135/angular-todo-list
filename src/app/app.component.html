@@ -1,14 +1,37 @@
+<!-- Part to add -->
 <div>
   <h1>To Do list</h1>
   <label for="addItemInput"> ¿Qué tenemos que hacer?</label>
-  
-  <input #newItem placeholder="Agregar un pendiente"
-  (keyup.enter)="addItem(newItem.value);
-  newItem.value=''"
-  class="leg-text-input" id="addItemInput">
+
+  <input #newItem placeholder="Agregar un pendiente" (keyup.enter)="addItem(newItem.value);
+  newItem.value=''" class="leg-text-input" id="addItemInput">
 
   <button class="btn-primary" (click)="addItem(newItem.value)">Agregar</button>
+
+  <!-- part to filter -->
+  <div class="btn-wrapper">
+    <button class="btn btn-menu" [class.active]="filter == 'all'" (click)="filter = 'all'">
+      All
+    </button>
+
+    <button class="btn btn-menu" [class.active]="filter == 'active'" (click)="filter = 'active'">
+      To Do
+    </button>
+
+    <button class="btn btn-menu" [class.active]="filter == 'done'" (click)="filter = 'done'">
+      Done
+    </button>
+  </div>
+
+<!-- list of items  -->
+  <h2>
+    {{items.length}}
+    <span *ngIf="items.length === 1; else elseBlock">item</span>
+    <ng-template #elseBlock>items</ng-template>
+  </h2>
+
   <ul>
-    <li *ngFor="let item of items">{{item.description}}</li>
+    <li *ngFor="let i of items">
+      <app-item (remove)="removeItem(i)" [item]="i"></app-item>
+    </li>
   </ul>
-</div>
